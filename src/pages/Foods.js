@@ -1,18 +1,42 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import Header from '../components/Header';
+import ButtonCategory from '../components/ButtonCategory';
 import Footer from '../components/Footer';
+import Header from '../components/Header';
 import RecipeCard from '../components/RecipeCard';
 import contextGlobal from '../context';
 
 function Foods() {
-  const { foodsRecipes } = useContext(contextGlobal);
-
+  const { foodsRecipes,
+    oneRecipes,
+    resultsFoods, foodsCategory,
+    resultsFilterFoods, handleAllFilter } = useContext(contextGlobal);
+  const checkingValues = foodsRecipes.length <= 0 ? resultsFoods : foodsRecipes;
+  const checkingfilter = resultsFilterFoods.length <= 0
+    ? checkingValues : resultsFilterFoods;
   return (
     <section>
       <Header name="Foods" />
+      <button
+        type="button"
+        onClick={ handleAllFilter }
+        data-testid="All-category-filter"
+      >
+        All
+      </button>
       {
-        foodsRecipes.length === 1 && foodsRecipes.map((element, index) => {
+        foodsCategory && foodsCategory.map((category, index) => {
+          const maxCategory = 5;
+          return index < maxCategory && (
+            <section key={ index }>
+              <ButtonCategory
+                category={ category }
+              />
+            </section>);
+        })
+      }
+      {
+        oneRecipes && oneRecipes.map((element, index) => {
           const { idMeal } = element;
           return (
             <Redirect
@@ -23,13 +47,16 @@ function Foods() {
         })
       }
       {
-        foodsRecipes.length > 1 && foodsRecipes.map((recipe, index) => {
+        checkingfilter && checkingfilter.map((recipe, index) => {
           const maxRecipes = 12;
           return index < maxRecipes && (
-            <RecipeCard
-              index={ index }
-              recipe={ recipe }
-            />);
+            <section key={ index }>
+              <RecipeCard
+                index={ index }
+                recipe={ recipe }
+              />
+            </section>
+          );
         })
       }
       <Footer />
