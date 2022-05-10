@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import contextGlobal from '.';
 import {
   getFavorites,
@@ -155,8 +154,7 @@ function Provider({ children }) {
       setResultsFilterDrinks(resultsDrinks);
     }
   };
-  const { pathname } = useLocation();
-  const handleAllFilter = async () => {
+  const handleAllFilter = async (pathname) => {
     const urlAll = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
     const dataURLAll = await urlAll.json();
     const foodsList = dataURLAll && dataURLAll.meals;
