@@ -20,12 +20,12 @@ describe('Teste se o componente Header funciona corretamente', () => {
   });
 
   test('se botão leva pra o usuário até a página /profile', () => {
-    const { history } = renderWithRouterAndContext(<Header name="Foods" />);
+    const { pathname } = renderWithRouterAndContext(<Header name="Foods" />);
 
     const profileButton = screen.getByRole('button', { name: 'Profile Icon' });
     userEvent.click(profileButton);
 
-    expect(history.location.pathname).toBe('/profile');
+    expect(pathname).toBe('/profile');
   });
   test('se o input só aparece quando é clicado no botão de pesquisa', () => {
     renderWithRouterAndContext(<Header name="Foods" />);
