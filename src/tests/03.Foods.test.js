@@ -1,9 +1,52 @@
-import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
 import renderWithRouterAndContext from '../helpers/renderWithRouterAndContext';
 import Foods from '../pages/Foods';
-// import chickenMeals from './mocks/chickenMeals';
+import fetchMock from './mocks/fetch';
+import beefMeals from './mocks/beefMeals';
+
+beforeEach(() => {
+  global.fetch = jest.fn(fetchMock);
+});
+// async () => {
+
+// global.fetch = Promise.resolve((url) => {
+//   Promise.resolve({
+//     json: () => {
+//       if (url === 'https://www.themealdb.com/api/json/v1/1/list.php?c=list') {
+//         return Promise.resolve(mealCategories);
+//       }
+//       if (url === 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list') {
+//         return Promise.resolve(drinkCategories);
+//       }
+//       if (url === 'https://www.themealdb.com/api/json/v1/1/search.php?s=') {
+//         return Promise.resolve(meals);
+//       }
+//       if (url === 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=') {
+//         return Promise.resolve(drinks);
+//       }
+//     },
+//   });
+// });
+// });
+
+afterEach(() => jest.clearAllMocks());
+
+const checkFirstTwelveRecipes = async (category, recipes) => {
+  const categoryButton = await screen.findByTestId(`${category}-category-filter`);
+  expect(categoryButton).toBeInTheDocument();
+  userEvent.click(categoryButton);
+
+  const maxRecipes = 12;
+  recipes.slice(0, maxRecipes).forEach((recipe, index) => {
+    const recipeCard = screen.getByTestId(`${index}-recipe-card`);
+    expect(recipeCard).toBeInTheDocument();
+  });
+
+  const notRecipeCard = await screen.findByTestId(`${maxRecipes}-recipe-card`);
+  expect(notRecipeCard).not.toBeInTheDocument();
+};
 
 describe('Teste se o componente Header funciona corretamente', () => {
   test('se existe um elemento header na página', () => {
@@ -41,6 +84,7 @@ describe('Teste se o componente Header funciona corretamente', () => {
   });
   test('se o filtro faz requisição à API e atualiza o estado global', () => {
     renderWithRouterAndContext(<Foods />);
+    const FIVE = 5;
 
     const searchIconButton = screen.getByRole('button', { name: 'Search Icon' });
     userEvent.click(searchIconButton);
@@ -54,14 +98,12 @@ describe('Teste se o componente Header funciona corretamente', () => {
     const searchButton = screen.getByRole('button', { name: 'Search' });
     userEvent.click(searchButton);
 
-    // jest.spyOn(global, 'fetch');
-    // global.fetch.mockResolvedValue({
-    //   json: jest.fn().mockResolvedValue(chickenMeals.meals),
-    // });
+    expect(global.fetch).toBeCalledTimes(FIVE);
+  });
+  test.only('se os botões de categoria funcionam corretamente', async () => {
+    // all, beef, breakfast, chicken, dessert, goat
+    renderWithRouterAndContext(<Foods />);
 
-    // expect(global.fetch).toBeCalledTimes(1);
-    // expect(global.fetch).toBeCalledWith(
-    //   'https://www.themealdb.com/api/json/v1/1/filter.php?i=chicken',
-    // );
+    checkFirstTwelveRecipes('Beef', beefMeals.meals);
   });
 });
