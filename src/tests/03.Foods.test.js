@@ -1,37 +1,22 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 import renderWithRouterAndContext from '../helpers/renderWithRouterAndContext';
-import Foods from '../pages/Foods';
 import fetchMock from './mocks/fetch';
 import beefMeals from './mocks/beefMeals';
+import breakfastMeals from './mocks/breakfastMeals';
+import chickenMeals from './mocks/chickenMeals';
+import dessertMeals from './mocks/dessertMeals';
+import goatMeals from './mocks/goatMeals';
+import meals from './mocks/meals';
 
 beforeEach(() => {
   global.fetch = jest.fn(fetchMock);
 });
-// async () => {
-
-// global.fetch = Promise.resolve((url) => {
-//   Promise.resolve({
-//     json: () => {
-//       if (url === 'https://www.themealdb.com/api/json/v1/1/list.php?c=list') {
-//         return Promise.resolve(mealCategories);
-//       }
-//       if (url === 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list') {
-//         return Promise.resolve(drinkCategories);
-//       }
-//       if (url === 'https://www.themealdb.com/api/json/v1/1/search.php?s=') {
-//         return Promise.resolve(meals);
-//       }
-//       if (url === 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=') {
-//         return Promise.resolve(drinks);
-//       }
-//     },
-//   });
-// });
-// });
 
 afterEach(() => jest.clearAllMocks());
+
+const FOOD_MAIN_PAGE_PATH = '/foods';
+const SEARCH_ICON = 'Search Icon';
 
 const checkFirstTwelveRecipes = async (category, recipes) => {
   const categoryButton = await screen.findByTestId(`${category}-category-filter`);
@@ -43,67 +28,89 @@ const checkFirstTwelveRecipes = async (category, recipes) => {
     const recipeCard = screen.getByTestId(`${index}-recipe-card`);
     expect(recipeCard).toBeInTheDocument();
   });
-
-  const notRecipeCard = await screen.findByTestId(`${maxRecipes}-recipe-card`);
-  expect(notRecipeCard).not.toBeInTheDocument();
 };
 
 describe('Teste se o componente Header funciona corretamente', () => {
   test('se existe um elemento header na página', () => {
-    renderWithRouterAndContext(<Foods />);
-
+    renderWithRouterAndContext(FOOD_MAIN_PAGE_PATH);
     const headerElement = screen.getByRole('banner');
     expect(headerElement).toBeInTheDocument();
   });
 
   test('se o header possui um título com o nome que foi passado via props', () => {
-    renderWithRouterAndContext(<Foods />);
+    renderWithRouterAndContext(FOOD_MAIN_PAGE_PATH);
     const heading = screen.getByRole('heading', { name: 'Foods' });
     expect(heading).toBeInTheDocument();
   });
 
   test('se botão leva pra o usuário até a página /profile', () => {
-    const { history } = renderWithRouterAndContext(<Foods />);
+    const { history } = renderWithRouterAndContext(FOOD_MAIN_PAGE_PATH);
 
     const profileButton = screen.getByRole('button', { name: 'Profile Icon' });
     userEvent.click(profileButton);
-
     expect(history.location.pathname).toBe('/profile');
   });
+
   test('se o input só aparece quando é clicado no botão de pesquisa', () => {
-    renderWithRouterAndContext(<Foods />);
+    renderWithRouterAndContext(FOOD_MAIN_PAGE_PATH);
 
-    const searchIconButton = screen.getByRole('button', { name: 'Search Icon' });
+    const searchIconButton = screen.getByRole('button', { name: SEARCH_ICON });
     userEvent.click(searchIconButton);
-
     const inputSearch = screen.getByRole('textbox');
     expect(inputSearch).toBeInTheDocument();
 
     userEvent.click(searchIconButton);
     expect(inputSearch).not.toBeInTheDocument();
   });
-  test('se o filtro faz requisição à API e atualiza o estado global', () => {
-    renderWithRouterAndContext(<Foods />);
-    const FIVE = 5;
 
-    const searchIconButton = screen.getByRole('button', { name: 'Search Icon' });
+  test('se o filtro faz requisição à API', () => {
+    renderWithRouterAndContext(FOOD_MAIN_PAGE_PATH);
+    const initialNumberOfCalls = 8;
+    const newNumberOfCalls = 9;
+    expect(global.fetch).toBeCalledTimes(initialNumberOfCalls);
+
+    const searchIconButton = screen.getByRole('button', { name: SEARCH_ICON });
     userEvent.click(searchIconButton);
-
     const inputSearch = screen.getByRole('textbox');
     userEvent.type(inputSearch, 'chicken');
 
     const searchRadio = screen.getAllByRole('radio');
     userEvent.click(searchRadio[0]);
-
     const searchButton = screen.getByRole('button', { name: 'Search' });
     userEvent.click(searchButton);
 
-    expect(global.fetch).toBeCalledTimes(FIVE);
+    expect(global.fetch).toBeCalledTimes(newNumberOfCalls);
   });
-  test.only('se os botões de categoria funcionam corretamente', async () => {
-    // all, beef, breakfast, chicken, dessert, goat
-    renderWithRouterAndContext(<Foods />);
+});
 
-    checkFirstTwelveRecipes('Beef', beefMeals.meals);
-  });
+describe('Teste se a página Foods renderiza as comidas corretamente', () => {
+  // test(`se quando o resultado de um filtro for uma comida só,
+  // ele redireciona para a página de detalhes`, () => {
+  //   const { history: { location } } = renderWithRouterAndContext(FOOD_MAIN_PAGE_PATH);
+
+  //   const searchIconButton = screen.getByRole('button', { name: SEARCH_ICON });
+  //   userEvent.click(searchIconButton);
+  //   const inputSearch = screen.getByRole('textbox');
+  //   userEvent.type(inputSearch, 'arrabiata');
+
+  //   const searchRadio = screen.getAllByRole('radio');
+  //   userEvent.click(searchRadio[0]);
+  //   const searchButton = screen.getByRole('button', { name: 'Search' });
+  //   userEvent.click(searchButton);
+
+  //   expect(location.pathname).toBe('/foods/52771');
+  // });
+
+  // test('se os botões de categoria filtram corretamente', async () => {
+  //   renderWithRouterAndContext(FOOD_MAIN_PAGE_PATH);
+
+  //   await Promise.all([
+  //     checkFirstTwelveRecipes('Beef', beefMeals.meals),
+  //     checkFirstTwelveRecipes('Breakfast', breakfastMeals.meals),
+  //     checkFirstTwelveRecipes('Chicken', chickenMeals.meals),
+  //     checkFirstTwelveRecipes('Dessert', dessertMeals.meals),
+  //     checkFirstTwelveRecipes('Goat', goatMeals.meals),
+  //     checkFirstTwelveRecipes('All', meals.meals),
+  //   ]);
+  // });
 });
