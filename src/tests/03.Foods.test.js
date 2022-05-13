@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndContext from '../helpers/renderWithRouterAndContext';
 import fetchMock from './mocks/fetch';
@@ -72,7 +72,7 @@ describe('Teste se o componente Header funciona corretamente', () => {
     const searchIconButton = screen.getByRole('button', { name: SEARCH_ICON });
     userEvent.click(searchIconButton);
     const inputSearch = screen.getByRole('textbox');
-    userEvent.type(inputSearch, 'chicken');
+    userEvent.type(inputSearch, 'Chicken');
 
     const searchRadio = screen.getAllByRole('radio');
     userEvent.click(searchRadio[0]);
@@ -84,33 +84,35 @@ describe('Teste se o componente Header funciona corretamente', () => {
 });
 
 describe('Teste se a página Foods renderiza as comidas corretamente', () => {
-  // test(`se quando o resultado de um filtro for uma comida só,
-  // ele redireciona para a página de detalhes`, () => {
-  //   const { history: { location } } = renderWithRouterAndContext(FOOD_MAIN_PAGE_PATH);
+  test(`se quando o resultado de um filtro for uma comida só,
+  ele redireciona para a página de detalhes`, async () => {
+    const { history: { location } } = renderWithRouterAndContext(FOOD_MAIN_PAGE_PATH);
 
-  //   const searchIconButton = screen.getByRole('button', { name: SEARCH_ICON });
-  //   userEvent.click(searchIconButton);
-  //   const inputSearch = screen.getByRole('textbox');
-  //   userEvent.type(inputSearch, 'arrabiata');
+    const searchIconButton = screen.getByRole('button', { name: SEARCH_ICON });
+    userEvent.click(searchIconButton);
+    const inputSearch = screen.getByRole('textbox');
+    userEvent.type(inputSearch, 'Arrabiata');
 
-  //   const searchRadio = screen.getAllByRole('radio');
-  //   userEvent.click(searchRadio[0]);
-  //   const searchButton = screen.getByRole('button', { name: 'Search' });
-  //   userEvent.click(searchButton);
+    const searchRadio = screen.getAllByRole('radio');
+    userEvent.click(searchRadio[1]);
+    const searchButton = screen.getByRole('button', { name: 'Search' });
+    userEvent.click(searchButton);
 
-  //   expect(location.pathname).toBe('/foods/52771');
-  // });
+    // const headerTitle = await screen.findByRole('heading', { name: 'Spicy Arrabiata Penne' });
+    await waitForElementToBeRemoved(() => screen.findByRole('heading', { name: 'Foods' }))
+      .then(expect(location.pathname).toBe('/foods/52771'));
+  });
 
-  // test('se os botões de categoria filtram corretamente', async () => {
-  //   renderWithRouterAndContext(FOOD_MAIN_PAGE_PATH);
+  test('se os botões de categoria filtram corretamente', async () => {
+    renderWithRouterAndContext(FOOD_MAIN_PAGE_PATH);
 
-  //   await Promise.all([
-  //     checkFirstTwelveRecipes('Beef', beefMeals.meals),
-  //     checkFirstTwelveRecipes('Breakfast', breakfastMeals.meals),
-  //     checkFirstTwelveRecipes('Chicken', chickenMeals.meals),
-  //     checkFirstTwelveRecipes('Dessert', dessertMeals.meals),
-  //     checkFirstTwelveRecipes('Goat', goatMeals.meals),
-  //     checkFirstTwelveRecipes('All', meals.meals),
-  //   ]);
-  // });
+    await Promise.all([
+      checkFirstTwelveRecipes('Beef', beefMeals.meals),
+      checkFirstTwelveRecipes('Breakfast', breakfastMeals.meals),
+      checkFirstTwelveRecipes('Chicken', chickenMeals.meals),
+      checkFirstTwelveRecipes('Dessert', dessertMeals.meals),
+      checkFirstTwelveRecipes('Goat', goatMeals.meals),
+      checkFirstTwelveRecipes('All', meals.meals),
+    ]);
+  });
 });
