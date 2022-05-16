@@ -98,9 +98,9 @@ describe('Teste se a página Foods renderiza as comidas corretamente', () => {
     const searchButton = screen.getByRole('button', { name: 'Search' });
     userEvent.click(searchButton);
 
-    const pageDetaislHeader = await screen
+    const pageDetaislTitle = await screen
       .findByRole('heading', { name: 'Spicy Arrabiata Penne' });
-    expect(pageDetaislHeader).toBeInTheDocument();
+    expect(pageDetaislTitle).toBeInTheDocument();
   });
 
   test('se os botões de categoria filtram corretamente', async () => {
