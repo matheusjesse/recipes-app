@@ -1,4 +1,4 @@
-import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndContext from '../helpers/renderWithRouterAndContext';
 import fetchMock from './mocks/fetch';
@@ -86,7 +86,7 @@ describe('Teste se o componente Header funciona corretamente', () => {
 describe('Teste se a página Foods renderiza as comidas corretamente', () => {
   test(`se quando o resultado de um filtro for uma comida só,
   ele redireciona para a página de detalhes`, async () => {
-    const { history: { location } } = renderWithRouterAndContext(FOOD_MAIN_PAGE_PATH);
+    renderWithRouterAndContext(FOOD_MAIN_PAGE_PATH);
 
     const searchIconButton = screen.getByRole('button', { name: SEARCH_ICON });
     userEvent.click(searchIconButton);
@@ -98,9 +98,9 @@ describe('Teste se a página Foods renderiza as comidas corretamente', () => {
     const searchButton = screen.getByRole('button', { name: 'Search' });
     userEvent.click(searchButton);
 
-    // const headerTitle = await screen.findByRole('heading', { name: 'Spicy Arrabiata Penne' });
-    await waitForElementToBeRemoved(() => screen.findByRole('heading', { name: 'Foods' }))
-      .then(expect(location.pathname).toBe('/foods/52771'));
+    const pageDetaislHeader = await screen
+      .findByRole('heading', { name: 'Spicy Arrabiata Penne' });
+    expect(pageDetaislHeader).toBeInTheDocument();
   });
 
   test('se os botões de categoria filtram corretamente', async () => {
