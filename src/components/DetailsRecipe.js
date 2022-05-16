@@ -81,7 +81,7 @@ function DetailsRecipe({ pageDetails }) {
       </h1>
       <img
         src={ conditionalsVariables.recipeImgSource }
-        alt="recipe"
+        alt={ `Recipe ${conditionalsVariables.recipeTitle}` }
         data-testid="recipe-photo"
       />
       <ShareButton />
