@@ -1,4 +1,5 @@
 src/App.test.js
 src/serviceWorker.js 
+src/tests/mocks
 cypress/*
 coverage/*
