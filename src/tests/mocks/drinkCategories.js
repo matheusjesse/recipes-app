@@ -10,7 +10,7 @@ const drinkCategories = {
     { strCategory: 'Homemade Liqueur' },
     { strCategory: 'Punch \/ Party Drink' },
     { strCategory: 'Beer' },
-    { strCategory: 'Soft Drink \/ Soda' }
+    { strCategory: 'Soft Drink \/ Soda' },
   ],
 };
 
