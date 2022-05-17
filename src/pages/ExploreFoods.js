@@ -25,7 +25,7 @@ function ExploreFoods() {
       <button
         type="button"
         data-testid="explore-surprise"
-        onClick={ handleRandom }
+        onClick={ () => handleRandom('/explore/foods') }
       >
         Surprise me!
       </button>
