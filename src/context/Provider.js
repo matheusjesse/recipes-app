@@ -167,7 +167,7 @@ function Provider({ children }) {
       setResultsFilterDrinks(drinksList);
     }
   };
-  const handleRandom = async () => {
+  const handleRandom = async (pathname) => {
     const urlRandomMeals = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
     const dataURLMeals = await urlRandomMeals.json();
     const mealsRandom = dataURLMeals && dataURLMeals.meals;
