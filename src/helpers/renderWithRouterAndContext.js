@@ -3,15 +3,19 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { render } from '@testing-library/react';
 import Provider from '../context/Provider';
-import contextGlobal from '../context';
+import App from '../App';
 
-const renderWithRouterAndContext = (component) => {
+const renderWithRouterAndContext = (path) => {
   const history = createMemoryHistory();
+
+  if (path) { history.push(path); }
 
   return ({
     ...render(
-      <Provider value={ contextGlobal }>
-        <Router history={ history }>{component}</Router>
+      <Provider>
+        <Router history={ history }>
+          <App />
+        </Router>
       </Provider>,
     ),
     history,

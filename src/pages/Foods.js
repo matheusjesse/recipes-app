@@ -19,7 +19,7 @@ function Foods() {
       <Header name="Foods" />
       <button
         type="button"
-        onClick={ handleAllFilter }
+        onClick={ () => handleAllFilter('/foods') }
         data-testid="All-category-filter"
       >
         All

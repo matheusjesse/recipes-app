@@ -42,7 +42,7 @@ function Login() {
         />
       </label>
       <label htmlFor="password-input">
-        password
+        Password
         <input
           type="password"
           data-testid="password-input"
