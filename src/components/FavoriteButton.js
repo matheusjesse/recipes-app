@@ -38,10 +38,11 @@ function FavoriteButton({ name, recipe, pageDetails, isFavoritePage, index }) {
 FavoriteButton.defaultProps = {
   isFavoritePage: false,
   index: null,
+  name: null,
 };
 
 FavoriteButton.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   recipe: PropTypes.objectOf(PropTypes.string).isRequired,
   pageDetails: PropTypes.string.isRequired,
   isFavoritePage: PropTypes.bool,
