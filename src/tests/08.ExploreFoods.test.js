@@ -29,22 +29,20 @@ describe('testar se o ExploreFoods funciona corretamente', () => {
     const surpriseMe = screen.getByRole('button', { name: /Surprise me/i });
     expect(surpriseMe).toBeInTheDocument();
   });
-  it('se existe e ele redireciona para uma receita surpresa', () => {
+  it('se existe e ele redireciona para uma receita surpresa', async () => {
     renderWithRouterAndContext(pathname);
     const surpriseMe = screen.getByRole('button', { name: /Surprise me/i });
     expect(surpriseMe).toBeInTheDocument();
 
     userEvent.click(surpriseMe);
-    renderWithRouterAndContext('/foods/52773');
-    const header = screen.getByTestId('recipe-title');
+    const header = await screen.findByTestId('recipe-title');
     expect(header).toBeInTheDocument();
   });
-  it('se existe e ele redireciona para ingrediente', () => {
+  it('se existe e ele redireciona para ingrediente', async () => {
     renderWithRouterAndContext(pathname);
     const buttonIngredient = screen.getByRole('link', { name: /By Ingredient/i });
     userEvent.click(buttonIngredient);
-    renderWithRouterAndContext('/explore/foods/ingredients');
-    const header = screen.queryAllByText('Explore Ingredients');
-    expect(header).toHaveLength(2);
+    const header = await screen.findByText('Explore Ingredients');
+    expect(header).toBeInTheDocument();
   });
 });
