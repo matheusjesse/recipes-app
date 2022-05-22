@@ -39,7 +39,7 @@ describe('Teste se o componente Header funciona corretamente', () => {
 });
 
 describe('Teste se a página Drinks renderiza as bebidas corretamente', () => {
-  test(`se quando o resultado de um filtro for uma bebida só,
+  it(`se quando o resultado de um filtro for uma bebida só,
   ele redireciona para a página de detalhes`, async () => {
     renderWithRouterAndContext(DRINK_PAGE_PATH);
 
