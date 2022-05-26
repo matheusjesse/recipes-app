@@ -21,6 +21,7 @@ function FavoriteButton({ name, recipe, pageDetails, isFavoritePage, index }) {
   return (
     <button
       type="button"
+      aria-label="favorite-btn-with-img"
       onClick={ () => handleFavorites(name, recipe, pageDetails) }
     >
       <img

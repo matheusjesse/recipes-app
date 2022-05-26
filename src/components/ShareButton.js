@@ -25,6 +25,7 @@ function ShareButton({ index, recipeType, id }) {
       <button
         type="button"
         data-testid="share-btn"
+        aria-label="share-btn-with-img"
         onClick={ handleShare }
       >
         <img

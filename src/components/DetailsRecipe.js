@@ -81,7 +81,7 @@ function DetailsRecipe({ pageDetails }) {
       </h1>
       <img
         src={ conditionalsVariables.recipeImgSource }
-        alt="recipe"
+        alt={ `Recipe ${conditionalsVariables.recipeTitle}` }
         data-testid="recipe-photo"
       />
       <ShareButton />
@@ -90,11 +90,11 @@ function DetailsRecipe({ pageDetails }) {
         recipe={ recipe }
         pageDetails={ pageDetails }
       />
-      <span data-testid="recipe-category">
+      <p data-testid="recipe-category" aria-label="category">
         { recipe.strCategory }
         {''}
         { recipe.strAlcoholic && ` (${recipe.strAlcoholic})`}
-      </span>
+      </p>
       <ol>
         {
           ingredientsAndMeasures.map((ingredientObject, index) => (
@@ -106,7 +106,12 @@ function DetailsRecipe({ pageDetails }) {
           ))
         }
       </ol>
-      <p data-testid="instructions">{ recipe.strInstructions }</p>
+      <p
+        data-testid="instructions"
+        aria-label="instructions"
+      >
+        { recipe.strInstructions }
+      </p>
       { conditionalsVariables.showVideo && (
         <div style={ { marginBottom: '20px' } }>
           <iframe
