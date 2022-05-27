@@ -76,6 +76,9 @@ function ProgressRecipe({ pageDetails }) {
   }, []);
 
   const handleShare = () => {
+    // const pathnameCopied = `/foods/${id}/in-progress`;
+    // console.log(id);
+    // console.log(pathnameCopied);
     const pageCopy = pageDetails === 'FoodsProgress'
       ? copy(`http://localhost:3000/foods/${id}`) : copy(`http://localhost:3000/drinks/${id}`);
     setIsLinkCopied(true);
