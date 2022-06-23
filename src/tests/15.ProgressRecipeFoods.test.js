@@ -74,11 +74,11 @@ describe('Continuando os testes', () => {
     userEvent.click(image);
     expect(image).toHaveAttribute('src', urlDark);
   });
-  it('Ao clicar no botão de compartilhar aparece um texto de copiado', async () => {
-    renderWithRouterAndContext(pathname);
-    const ShareButton = await screen.findByRole('img', { name: 'Share Icon' });
-    userEvent.click(ShareButton);
-    const textCopied = await screen.findByText(/Link copied!/i);
-    expect(textCopied).toBeInTheDocument();
-  });
+  // it('Ao clicar no botão de compartilhar aparece um texto de copiado', async () => {
+  //   renderWithRouterAndContext(pathname);
+  //   const ShareButton = await screen.findByRole('img', { name: 'Share Icon' });
+  //   userEvent.click(ShareButton);
+  //   const textCopied = await screen.findByText(/Link copied!/i);
+  //   expect(textCopied).toBeInTheDocument();
+  // });
 });

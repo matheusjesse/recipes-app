@@ -67,7 +67,7 @@ describe('se os componentes Header e Footer funcionam corretamente', () => {
   });
 });
 
-describe.only('se os filtros de nacionalidade funcionam corretamente', () => {
+describe('se os filtros de nacionalidade funcionam corretamente', () => {
   const maxRecipes = 12;
 
   const checkFirstMeals = async (meals, limit = maxRecipes) => {
