@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import './ProgressRecipe.css';
 import { useLocation, useHistory } from 'react-router-dom';
 import FavoriteButton from '../components/FavoriteButton';
 import ShareIcon from '../images/shareIcon.svg';
 import getIngredientsAndMeasures from '../helpers/getIngredientsAndMeasures';
 import { requestRecipe } from '../helpers/requestAPIs';
+import ContainerProgress from '../styles/ProgressRecipe';
 
 const copy = require('clipboard-copy');
 
@@ -120,37 +120,48 @@ function ProgressRecipe({ pageDetails }) {
   };
   const { push } = useHistory();
   return (
-    <main>
-      <h1
-        data-testid="recipe-title"
-      >
-        { conditionalsVariables.recipeTitle }
-
-      </h1>
+    <ContainerProgress>
       <img
         src={ conditionalsVariables.recipeImgSource }
         alt="recipe"
         data-testid="recipe-photo"
+        className="imgRecipe"
       />
-      <button
-        type="button"
-        data-testid="share-btn"
-        onClick={ handleShare }
-      >
-        <img src={ ShareIcon } alt="Share Icon" />
-      </button>
-      { isLinkCopied && <span>Link copied!</span> }
-      <FavoriteButton
-        name={ conditionalsVariables.recipeTitle }
-        recipe={ recipe }
-        pageDetails={ pageDetails }
-      />
+      <div className="container-btn-title">
+        <div>
+          <h1
+            data-testid="recipe-title"
+          >
+            { conditionalsVariables.recipeTitle }
+
+          </h1>
+        </div>
+        <div className="container-btns">
+          <button
+            type="button"
+            data-testid="share-btn"
+            onClick={ handleShare }
+            className="shareButton"
+          >
+            <img src={ ShareIcon } alt="Share Icon" />
+          </button>
+          { isLinkCopied && <span>Link copied!</span> }
+        </div>
+        <div className="favoriteContainer">
+          <FavoriteButton
+            name={ conditionalsVariables.recipeTitle }
+            recipe={ recipe }
+            pageDetails={ pageDetails }
+          />
+        </div>
+
+      </div>
       <span data-testid="recipe-category">
         { recipe.strCategory }
         {''}
         { recipe.strAlcoholic && ` (${recipe.strAlcoholic})`}
       </span>
-      <div>
+      <div className="recipeProgressContainer">
         {
           ingredientsAndMeasures
           && ingredientsAndMeasures.map((ingredientObject, index) => (
@@ -173,16 +184,22 @@ function ProgressRecipe({ pageDetails }) {
             </label>))
         }
       </div>
-      <p data-testid="instructions">{ recipe.strInstructions }</p>
+      <div
+        className="instructionsContainer"
+      >
+        <h2>Instructions</h2>
+        <p data-testid="instructions">{ recipe.strInstructions }</p>
+      </div>
       <button
         type="button"
         data-testid="finish-recipe-btn"
         disabled={ isDisabledButton }
         onClick={ () => push('/done-recipes') }
+        className="finishBtn"
       >
         Finish
       </button>
-    </main>
+    </ContainerProgress>
   );
 }
 
