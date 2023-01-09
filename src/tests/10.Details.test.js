@@ -1,5 +1,4 @@
 import { screen } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
 import renderWithRouterAndContext from '../helpers/renderWithRouterAndContext';
 import fetchMock from '../../cypress/mocks/fetch';
 
@@ -19,7 +18,7 @@ describe('Teste se o componente Details funciona corretamente', () => {
   });
   test('se existe uma img da receita Arrabiata', async () => {
     renderWithRouterAndContext(DETAILS_FOOD);
-    const img = await screen.findByAltText('Recipe Spicy Arrabiata Penne');
+    const img = await screen.findByAltText('recipe');
     expect(img).toHaveAttribute('src', 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg');
   });
   test('se existe botão de compartilhar', () => {
@@ -29,12 +28,12 @@ describe('Teste se o componente Details funciona corretamente', () => {
   });
   test('se existe botão de favoritar', () => {
     renderWithRouterAndContext(DETAILS_FOOD);
-    const buttonFavorite = screen.getByRole('button', { name: /favorite-btn/i });
+    const buttonFavorite = screen.getByRole('button', { name: /heart icon/i });
     expect(buttonFavorite).toBeInTheDocument();
   });
   test('se existe um texto com o nome da categoria da receita', async () => {
     renderWithRouterAndContext(DETAILS_FOOD);
-    const spanWithCategory = await screen.findByLabelText('category');
+    const spanWithCategory = await screen.findByTestId('recipe-category');
     expect(spanWithCategory).toBeInTheDocument();
     expect(spanWithCategory).toHaveTextContent('Vegetarian');
   });
@@ -71,12 +70,8 @@ describe('Teste se o componente Details funciona corretamente, parte II', () => 
   });
   test('se as instruções são da receita Arrabiata', async () => {
     renderWithRouterAndContext(DETAILS_FOOD);
-    const paragraphWithInstructions = await screen.findByLabelText('instructions');
+    const paragraphWithInstructions = await screen.findByTestId('instructions');
     expect(paragraphWithInstructions).toBeInTheDocument();
     expect(paragraphWithInstructions).toHaveTextContent(/Bring a large pot of water/i);
   });
-  // test('se o texto do botão inicialmente é Start Recipe, e depois Continue Recipe', async () => {
-  //   // trazer localStorage
-  //   renderWithRouterAndContext(DETAILS_FOOD);
-  // });
 });
