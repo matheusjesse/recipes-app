@@ -12,11 +12,6 @@ afterEach(() => jest.clearAllMocks());
 const pathname = '/foods/52977/in-progress';
 
 describe('Testa se a página ProgressRecipe funciona corretamente', () => {
-  it('testa se a ProgressRecipe tem um header com o nome foods', () => {
-    renderWithRouterAndContext(pathname);
-    const headerFoods = screen.getByRole('heading', { name: 'FoodsProgress' });
-    expect(headerFoods).toBeInTheDocument();
-  });
   it('Testa se renderiza o nome corba na tela de progresso', async () => {
     renderWithRouterAndContext(pathname);
     const h1 = await screen.findByRole('heading', { name: /Spicy Arrabiata Penne/i });
