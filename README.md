@@ -31,7 +31,7 @@ Extenção do Google Chrome para visualizar o APP nas dimensões do celular [Mob
   git clone git@github.com:matheusjesse/recipes-app.git
 ```
 ```bash
-  cd pasta do projeto
+  cd recipes-app
 ```
 ```bash
   npm install
