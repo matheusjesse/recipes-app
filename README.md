@@ -17,7 +17,7 @@ e ingredientes de todo o mundo.
 <br/>
 <br/>
 
->Link para o [Figma](https://www.figma.com/file/qjXyan1ZRgQ8AUfGEysMVe/Projeto-Online-Store---Grupo-14-Turma-19-A?node-id=0%3A1) do projeto com todas as telas!!
+>Link para o [Figma](https://www.figma.com/file/qjXyan1ZRgQ8AUfGEysMVe/Projeto-Online-Store---Grupo-14-Turma-19-A?node-id=0%3A1) do projeto com todas as telas!! (**Pode demorar um pouco para abrir o figma**)
 
 ## Instalação
 
